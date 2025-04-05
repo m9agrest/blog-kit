@@ -1,6 +1,9 @@
 <?php
+include(__DIR__."/properties.php");
 include(__DIR__."/data_base.php");
 include(__DIR__."/block.php");
+include(__DIR__."/model.php");
+include(__DIR__."/query.php");
 
 function stop(int $code, string $text = "", string $more = "", bool $json = false) {
     DataBaseClose();  // Закрываем соединение с базой данных

@@ -7,7 +7,7 @@ $DataBaseConnect = null;
 function DataBase(): mysqli {
 	global $DataBaseConnect;
 	if(!isset($DataBaseConnect) || $DataBaseConnect->connect_errno) {
-		$DataBaseConnect = mysqli_connect("127.0.0.1:3306", "root", "", "blog");
+		$DataBaseConnect = mysqli_connect(DATABASE_HOSTNAME, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
 		if($DataBaseConnect && !$DataBaseConnect->connect_errno){
 			$DataBaseConnect->set_charset("utf8");
 		}else{
