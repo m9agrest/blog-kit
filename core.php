@@ -1,0 +1,67 @@
+<?php
+include(__DIR__."/data_base.php");
+include(__DIR__."/block.php");
+
+function stop(int $code, string $text = "", string $more = "", bool $json = false) {
+    DataBaseClose();  // Закрываем соединение с базой данных
+
+    // Логируем ошибку
+    error_log("Error {$code}: {$text} {$more}");
+
+    // Устанавливаем HTTP статус
+    http_response_code($code);
+
+    if ($json) {
+        // Для API-ответов выводим в формате JSON
+        header('Content-Type: application/json');
+        echo json_encode(["error" => $text]);
+    } else {
+        // Для обычных запросов выводим текст ошибки
+        if ($text !== "") {
+            echo $text;
+        }
+    }
+
+    // Завершаем выполнение скрипта
+    exit();
+}
+
+//убираем поле GET
+$page = array_pop(explode("?", $_SERVER["REDIRECT_URL"]));
+
+session_start();
+$session_user_id = 0;
+if(isset($_SESSION['device']) && isset($_SESSION['ip']) && isset($_SESSION['id'])){
+	if($_SESSION['device'] == $_SERVER['HTTP_USER_AGENT'] && $_SESSION['ip'] == $_SERVER['REMOTE_ADDR'] && $_SESSION['id'] > 0){
+		$session_user_id = $_SESSION['id'];
+	}
+}
+
+$list = 1;
+
+//подгрузка страниц
+if(preg_match('/^post(\d+)$/', $page, $matches)){
+	//post100
+	//post100/100 открываемая страница с постами-комментами - 100
+    if($_SERVER["REQUEST_METHOD"] === "GET"){
+        $post_id = (int) $matches[1];
+        //открываем 
+    }else{
+        stop(403, json: true);
+    }
+}elseif(preg_match('/^user(\d+)$/', $page, $matches)){
+	//user100
+	//user100/100 открываемая страница с постами - 100
+    if($_SERVER["REQUEST_METHOD"] === "GET"){
+		$list = 1;
+        $user_id = (int) $matches[1];
+        //открываем 
+    }else{
+        stop(403, json: true);
+    }
+}else{
+    stop(404);
+}
+
+
+?>
