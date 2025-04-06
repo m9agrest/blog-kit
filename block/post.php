@@ -9,6 +9,9 @@
         <?php if (isset($post->photo)): ?>
             <img src="<?= $post->photo ?>" alt="Post Photo">
         <?php endif; ?>
+    </div>
+    <div class="post-info">
+        <p>Лайков: <?= $post->like ?></p>
         <p>Комментариев: <?= $post->comment ?></p>
     </div>
 </div>

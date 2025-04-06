@@ -72,6 +72,12 @@
             font-size: 14px;
             line-height: 1.6;
         }
+        
+        .post-info p {
+            font-size: 12px;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
 
         .post-content img {
             max-width: 100%;
@@ -83,9 +89,10 @@
             color: #666;
             margin-bottom: 10px;
         }
-        
+
         .post-author a{
             text-decoration: none;
+            color: #000000;
         }
 
         .post-content a{
