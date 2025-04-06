@@ -135,9 +135,7 @@ UNION
 
 SELECT p2.*, NULL AS liker FROM v_post AS p2
 
-ORDER BY liker DESC
-
--- SELECT * FROM v_post_2 WHERE id = {$post_id} AND liker = {$session_id} OR liker = null LIMIT 1 //сортирнуть по liker, так чтобы если есть id то он был первый ;
+ORDER BY liker DESC ;
 
 -- Удаление временной таблицы и создание окончательной структуры представления
 DROP TABLE IF EXISTS `v_user`;
