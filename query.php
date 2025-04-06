@@ -1,4 +1,5 @@
 <?php
+//TODO у постов получать информацию, лайкнул ли их SESSION_ID
 function getUser(int $user_id): User | null{
     if($user_id <= 0){
         return null;
@@ -24,7 +25,7 @@ function getPost(int $post_id, int $child_list): Post | null{
     }
     $com = ($child_list - 1) * COUNT_LIST;
 
-    $data = DataBaseGetLine("SELECT * FROM v_post WHERE id = {$post_id} AND (comment = 0 OR comment > {$com}) LIMIT 1;");
+    $data = DataBaseGetLine("SELECT * FROM v_post_2 WHERE id = {$post_id} AND (comment = 0 OR comment > {$com}) AND (liker = ".SESSION_ID." OR liker IS NULL) LIMIT 1;");
     if(isset($data) && is_array($data)){
         return new Post($data, true, $child_list);
     }
@@ -34,7 +35,7 @@ function getPostFather(int $post_id): Post | null{
     if($post_id <= 0){
         return null;
     }
-    $data = DataBaseGetLine("SELECT * FROM v_post WHERE id = {$post_id} LIMIT 1;");
+    $data = DataBaseGetLine("SELECT * FROM v_post_2 WHERE id = {$post_id} AND (liker = ".SESSION_ID." OR liker IS NULL) LIMIT 1;");
     if(isset($data) && is_array($data)){
         return new Post($data);
     }
@@ -47,7 +48,7 @@ function getPostChild(int $post_id, int $list = 1): array{
 
     $from = ($list - 1) * COUNT_LIST;
 
-    $arr = DataBaseGetArray("SELECT * FROM v_post WHERE answer = {$post_id} LIST {$from}, {COUNT_LIST};");
+    $arr = DataBaseGetArray("SELECT * FROM v_post_2 WHERE answer = {$post_id} AND (liker = ".SESSION_ID." OR liker IS NULL) ORDER BY id DESC LIMIT {$from}, " . COUNT_LIST);
     
     $ret = [];
     for($i = 0; $i < count($arr); $i++){

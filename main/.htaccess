@@ -1,0 +1,15 @@
+php_flag display_startup_errors off
+php_flag display_errors off
+php_flag html_errors off
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+<IfModule mod_dir.c>
+	DirectorySlash off
+</IfModule>
+
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . ../core.php

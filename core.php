@@ -30,7 +30,7 @@ function stop(int $code, string $text = "", string $more = "", bool $json = fals
 }
 
 //убираем поле GET
-$page = array_pop(explode("?", $_SERVER["REDIRECT_URL"]));
+$page = array_pop(explode("/", $_SERVER["REDIRECT_URL"]));
 
 session_start();
 $session_user_id = 0;
@@ -39,6 +39,7 @@ if(isset($_SESSION['device']) && isset($_SESSION['ip']) && isset($_SESSION['id']
 		$session_user_id = $_SESSION['id'];
 	}
 }
+define("SESSION_ID", $session_user_id);
 
 $list = 1;
 
@@ -48,7 +49,7 @@ if(preg_match('/^post(\d+)$/', $page, $matches)){
 	//post100/100 открываемая страница с постами-комментами - 100
     if($_SERVER["REQUEST_METHOD"] === "GET"){
         $post_id = (int) $matches[1];
-        //открываем 
+        include(__DIR__."/page/post.php");
     }else{
         stop(403, json: true);
     }

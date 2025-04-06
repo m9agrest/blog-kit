@@ -1,5 +1,5 @@
 <head>
-	<title>{$title}</title>
+	<title><?= htmlspecialchars($title) ?></title>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const postDateElements = document.querySelectorAll(".post-date");

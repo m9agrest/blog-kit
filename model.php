@@ -1,9 +1,9 @@
 <?php
 class User{
-    public int $id = 0;
-    public string $name = "";
+    public int $id;
+    public string $name;
     public string $photo = "none.jpg";
-    public int $sub = 0;
+    public int $sub;
     public function __construct(array | null $data = null){
         if(isset($data)){
             $this->id = $data["id"];
@@ -16,22 +16,26 @@ class User{
     }
 }
 class Post{
-    public int $id = 0;
-    public Post | null $father = null;
-    public array $children = [];
-
-    public int $comment = 0;
-    public string | null $text = null;
-    public string | null $photo = null;
-    public int $date = 0;
-    public User $user = new User();
+    public int $id;
+    public Post | null $father;
+    public array $children;
+    public int $like;
+    public bool $liked;
+    public int $comment;
+    public string | null $text;
+    public string | null $photo;
+    public int $date;
+    public User $user;
     public function __construct(array $data, bool $get_father = false, int $list_children = 0){
         $this->id = $data["id"];
         $this->comment = $data["comment"];
         $this->text = $data["text"];
         $this->photo = $data["photo"];
         $this->date = $data["date"];
+        $this->like = $data["like"];
+        $this->liked = isset($data["liker"]);
 
+        $this->user = new User();
         $this->user->id = $data["user_id"];
         $this->user->name = $data["user_name"];
         if(isset($data["user_photo"])){
