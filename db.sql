@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `photo` tinytext DEFAULT NULL,
   `date` int(11) NOT NULL DEFAULT unix_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin;
 
 -- Экспортируемые данные не выделены.
 
@@ -78,8 +78,7 @@ CREATE TABLE `v_post` (
 	`like` BIGINT(21) NOT NULL,
 	`user_id` INT(11) NULL,
 	`user_name` TINYTEXT NULL COLLATE 'armscii8_bin',
-	`user_photo` TINYTEXT NULL COLLATE 'armscii8_bin',
-	`user_sub` BIGINT(21) NULL
+	`user_photo` TINYTEXT NULL COLLATE 'armscii8_bin'
 ) ENGINE=MyISAM;
 
 -- Дамп структуры для представление blog.v_post_2
@@ -96,7 +95,6 @@ CREATE TABLE `v_post_2` (
 	`user_id` INT(11) NULL,
 	`user_name` TINYTEXT NULL COLLATE 'armscii8_bin',
 	`user_photo` TINYTEXT NULL COLLATE 'armscii8_bin',
-	`user_sub` BIGINT(21) NULL,
 	`liker` INT(11) NULL
 ) ENGINE=MyISAM;
 
@@ -108,7 +106,8 @@ CREATE TABLE `v_user` (
 	`photo` TINYTEXT NULL COLLATE 'armscii8_bin',
 	`email` TINYTEXT NOT NULL COLLATE 'armscii8_bin',
 	`password` TINYTEXT NOT NULL COLLATE 'armscii8_bin',
-	`sub` BIGINT(21) NOT NULL
+	`sub` BIGINT(21) NOT NULL,
+	`post` BIGINT(21) NOT NULL
 ) ENGINE=MyISAM;
 
 -- Удаление временной таблицы и создание окончательной структуры представления
@@ -118,10 +117,9 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_post` AS SELECT p.*,
        COUNT(DISTINCT l.user) AS `like`,     -- Считаем количество лайков
        u.id                   AS user_id,
        u.`name`               AS user_name,
-       u.photo                AS user_photo,
-       u.sub                  AS user_sub
+       u.photo                AS user_photo
 FROM      post   AS p
-LEFT JOIN v_user AS u  ON u.id = p.`user`   -- Объединяем посты с пользователями
+LEFT JOIN `user` AS u  ON u.id = p.`user`   -- Объединяем посты с пользователями
 LEFT JOIN post   AS p2 ON p2.answer = p.id  -- Объединяем посты с комментариями (где p2 является ответом на p)
 LEFT JOIN `like` AS l  ON l.post = p.id     -- Объединяем посты с лайками
 GROUP BY p.id ;
@@ -144,9 +142,11 @@ ORDER BY liker DESC
 -- Удаление временной таблицы и создание окончательной структуры представления
 DROP TABLE IF EXISTS `v_user`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_user` AS SELECT u.*, 
-       COUNT(s.user2) AS sub  -- Считаем количество подписчиков
+       COUNT(DISTINCT s.user2) AS sub, -- Считаем количество подписчиков
+       COUNT(DISTINCT p.id)    AS post -- Считаем количество постов
 FROM     `user` AS u
 LEFT JOIN sub   AS s ON s.user2 = u.id
+LEFT JOIN post  AS p ON p.`user` = u.id
 GROUP BY u.id ;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

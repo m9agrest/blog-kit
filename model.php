@@ -3,7 +3,8 @@ class User{
     public int $id;
     public string $name;
     public string $photo = "none.jpg";
-    public int $sub;
+    public int $sub = 0;
+    public int $post = 0;
     public function __construct(array | null $data = null){
         if(isset($data)){
             $this->id = $data["id"];
@@ -12,6 +13,7 @@ class User{
                 $this->photo = $data["photo"];
             }
             $this->sub = $data["sub"];
+            $this->post = $data["post"];
         }
     }
 }
@@ -41,7 +43,6 @@ class Post{
         if(isset($data["user_photo"])){
             $this->user->photo = $data["user_photo"];
         }
-        $this->user->sub = $data["user_sub"];
 
         if($get_father){
             $this->father = getPostFather($data["answer"]);
