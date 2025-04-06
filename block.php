@@ -3,6 +3,7 @@ function blockHead(string $title){
 	include(__DIR__."/block/head.php");
 }
 function blockHeader(){
+	$user = getUser(SESSION_ID);
 	include(__DIR__."/block/header.php");
 }
 
