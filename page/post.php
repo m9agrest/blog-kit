@@ -22,6 +22,7 @@ if(!isset($post)){
             <?php else: ?>
                 <p>Комментариев нет.</p>
             <?php endif; ?>
+            <?php blockPagination($list, $post->comment, "post".($post->id)) ?>
         </main>
     </body>
 </html>

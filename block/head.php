@@ -22,4 +22,25 @@
             });
         });
     </script>
+    <style>
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination .page,
+        .pagination .current,
+        .pagination .dots {
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+        }
+        .pagination .current {
+            font-weight: bold;
+            background-color: #eee;
+            border-radius: 4px;
+        }
+        .pagination .dots {
+            color: #888;
+        }
+    </style>
 </head>

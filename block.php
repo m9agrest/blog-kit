@@ -11,4 +11,10 @@ function blockPost(Post $post) {
     include(__DIR__."/block/post.php");
 }
 
+function blockPagination(int $list, int $count, string $item){
+	$total_pages = ceil($count / COUNT_LIST);
+	if($total_pages > 1){
+		include(__DIR__."/block/pagination.php");
+	}
+}
 ?>

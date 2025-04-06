@@ -23,6 +23,7 @@ $posts = getPostUser($user_id, $list);
             <?php else: ?>
                 <p>Постов нет.</p>
             <?php endif; ?>
+            <?php blockPagination($list, $user->post, "user".($user->id)) ?>
         </main>
     </body>
 </html>
