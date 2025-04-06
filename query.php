@@ -17,9 +17,9 @@ function getPostUser(int $user_id, int $list): array{
         return $ret;
     }
     $from = ($list - 1) * COUNT_LIST;
-    $liker = "(liker = ".SESSION_ID." OR liker IS NULL)";
+    $liker = "(liker = ".SESSION_ID." OR liker IS NULL) ORDER BY id DESC";
 
-    $arr = DataBaseGetArray("SELECT * FROM v_post_2 WHERE user = {$user_id} AND {$liker} ORDER BY id DESC LIMIT {$from}, ".COUNT_LIST);
+    $arr = DataBaseGetArray("SELECT * FROM v_post_2 WHERE user = {$user_id} AND {$liker} LIMIT {$from}, ".COUNT_LIST);
     
     for($i = 0; $i < count($arr); $i++){
         $ret[] = new Post($arr[$i]);
@@ -32,7 +32,7 @@ function getPost(int $post_id, int $child_list): Post | null{
         return null;
     }
     $com = ($child_list - 1) * COUNT_LIST;
-    $liker = "(liker = ".SESSION_ID." OR liker IS NULL)";
+    $liker = "(liker = ".SESSION_ID." OR liker IS NULL) ORDER BY id DESC";
 
     $data = DataBaseGetLine("SELECT * FROM v_post_2 WHERE id = {$post_id} AND (comment = 0 OR comment > {$com}) AND {$liker} LIMIT 1;");
     if(isset($data) && is_array($data)){
@@ -44,7 +44,7 @@ function getPostFather(int $post_id): Post | null{
     if($post_id <= 0){
         return null;
     }
-    $liker = "(liker = ".SESSION_ID." OR liker IS NULL)";
+    $liker = "(liker = ".SESSION_ID." OR liker IS NULL) ORDER BY id DESC";
 
     $data = DataBaseGetLine("SELECT * FROM v_post_2 WHERE id = {$post_id} AND {$liker} LIMIT 1;");
     if(isset($data) && is_array($data)){
@@ -58,9 +58,9 @@ function getPostChild(int $post_id, int $list = 1): array{
         return $ret;
     }
     $from = ($list - 1) * COUNT_LIST;
-    $liker = "(liker = ".SESSION_ID." OR liker IS NULL)";
+    $liker = "(liker = ".SESSION_ID." OR liker IS NULL) ORDER BY id DESC";
 
-    $arr = DataBaseGetArray("SELECT * FROM v_post_2 WHERE answer = {$post_id} AND {$liker} ORDER BY id DESC LIMIT {$from}, ".COUNT_LIST);
+    $arr = DataBaseGetArray("SELECT * FROM v_post_2 WHERE answer = {$post_id} AND {$liker} LIMIT {$from}, ".COUNT_LIST);
 
     for($i = 0; $i < count($arr); $i++){
         $ret[] = new Post($arr[$i]);

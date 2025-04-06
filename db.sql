@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Хост:                         127.0.0.1
--- Версия сервера:               10.4.32-MariaDB - mariadb.org binary distribution
+-- Версия сервера:               10.4.21-MariaDB - mariadb.org binary distribution
 -- Операционная система:         Win64
--- HeidiSQL Версия:              12.8.0.6908
+-- HeidiSQL Версия:              12.7.0.6850
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -16,7 +16,7 @@
 
 
 -- Дамп структуры базы данных blog
-CREATE DATABASE IF NOT EXISTS `blog` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
+CREATE DATABASE IF NOT EXISTS `blog` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `blog`;
 
 -- Дамп структуры для таблица blog.like
@@ -35,11 +35,11 @@ CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
   `answer` int(11) NOT NULL DEFAULT 0,
-  `text` text DEFAULT NULL,
-  `photo` tinytext DEFAULT NULL,
+  `text` text COLLATE armscii8_bin DEFAULT NULL,
+  `photo` tinytext COLLATE armscii8_bin DEFAULT NULL,
   `date` int(11) NOT NULL DEFAULT unix_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin;
 
 -- Экспортируемые данные не выделены.
 
@@ -55,13 +55,13 @@ CREATE TABLE IF NOT EXISTS `sub` (
 -- Дамп структуры для таблица blog.user
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` tinytext NOT NULL,
-  `photo` tinytext DEFAULT NULL,
-  `email` tinytext NOT NULL,
-  `password` tinytext NOT NULL,
+  `name` tinytext COLLATE armscii8_bin NOT NULL,
+  `photo` tinytext COLLATE armscii8_bin DEFAULT NULL,
+  `email` tinytext COLLATE armscii8_bin NOT NULL,
+  `password` tinytext COLLATE armscii8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin;
 
 -- Экспортируемые данные не выделены.
 
@@ -122,7 +122,7 @@ FROM      post   AS p
 LEFT JOIN `user` AS u  ON u.id = p.`user`   -- Объединяем посты с пользователями
 LEFT JOIN post   AS p2 ON p2.answer = p.id  -- Объединяем посты с комментариями (где p2 является ответом на p)
 LEFT JOIN `like` AS l  ON l.post = p.id     -- Объединяем посты с лайками
-GROUP BY p.id ;
+GROUP BY p.id ; ;
 
 -- Удаление временной таблицы и создание окончательной структуры представления
 DROP TABLE IF EXISTS `v_post_2`;
@@ -135,16 +135,16 @@ UNION
 
 SELECT p2.*, NULL AS liker FROM v_post AS p2
 
-ORDER BY liker DESC ;
+ORDER BY liker DESC ; ;
 
 -- Удаление временной таблицы и создание окончательной структуры представления
 DROP TABLE IF EXISTS `v_user`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `v_user` AS SELECT u.*, 
-       COUNT(DISTINCT s.user2) AS sub, -- Считаем количество подписчиков
+       COUNT(DISTINCT s.user1) AS sub, -- Считаем количество подписчиков
        COUNT(DISTINCT p.id)    AS post -- Считаем количество постов
 FROM     `user` AS u
 LEFT JOIN sub   AS s ON s.user2 = u.id
-LEFT JOIN post  AS p ON p.`user` = u.id
+LEFT JOIN post  AS p ON p.`user` = u.id 
 GROUP BY u.id ;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

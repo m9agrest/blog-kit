@@ -29,8 +29,10 @@ function stop(int $code, string $text = "", string $more = "", bool $json = fals
     exit();
 }
 
+$pages = explode("/", $_SERVER["REDIRECT_URL"]);
+
 //убираем поле GET
-$page = array_pop(explode("/", $_SERVER["REDIRECT_URL"]));
+$page = array_pop($pages);
 
 session_start();
 $session_user_id = 0;
