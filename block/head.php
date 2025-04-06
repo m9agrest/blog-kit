@@ -46,63 +46,77 @@
     </style>
     <!--Стили поста-->
     <style>
-        .post {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 16px;
-            margin: 20px 0;
-            background-color: #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            font-family: sans-serif;
+        /* Общие стили для всех типов постов */
+        .post, .father-post, .children-post {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
         }
 
         .post-author {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .post-author img {
+            border-radius: 50%;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
             margin-right: 10px;
         }
 
-        .post-author a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .post-content a.post-date {
-            display: inline-block;
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 8px;
-            text-decoration: none;
-        }
-
         .post-content p {
-            font-size: 15px;
-            color: #222;
-            margin: 10px 0;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .post-content img {
-            display: block;
             max-width: 100%;
-            height: auto;
-            margin: 10px 0;
-            border-radius: 8px;
+            margin-top: 10px;
         }
 
-        .post-content p:last-child {
-            font-size: 14px;
+        .post-date {
+            font-size: 12px;
             color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .post-author a{
+            text-decoration: none;
+        }
+
+        .post-content a{
+            text-decoration: none;
+        }
+
+        /* Стили для обычных постов */
+        .post {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили для постов-отцов */
+        .father-post {
+            background-color: #e8f4f8;
+            border-left: 4px solid #007bff;
+        }
+
+        .father-post .post-author a {
+            color: #007bff;
+        }
+
+        /* Стили для постов-детей */
+        .children-post {
+            background-color: #f1f9f4;
+            padding-left: 40px;
+            border-left: 4px solid #28a745;
+        }
+
+        .children-post .post-author a {
+            color: #28a745;
         }
     </style>
     <!--Стили профиля-->

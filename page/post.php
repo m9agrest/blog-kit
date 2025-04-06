@@ -10,14 +10,14 @@ if(!isset($post)){
         <?php blockHeader(); ?>
         <main>
             <?php if (isset($post->father)): ?>
-                <?php blockPost($post->father); ?>
+                <?php blockPost($post->father, "father"); ?>
             <?php endif; ?>
 
             <?php blockPost($post); ?>
 
             <?php if (count($post->children) > 0): ?>
                 <?php foreach ($post->children as $comment): ?>
-                    <?php blockPost($comment); ?>
+                    <?php blockPost($comment, "children"); ?>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>Комментариев нет.</p>

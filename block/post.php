@@ -1,4 +1,4 @@
-<div class="post">
+<div class="<?= $type ?>post">
     <div class="post-author">
         <img src="/blog-kit/main/photo/<?= $post->user->photo ?>" alt="User Photo">
         <a href="/blog-kit/main/user<?=$post->user->id ?>"><?= htmlspecialchars($post->user->name) ?></a>

@@ -7,7 +7,10 @@ function blockHeader(){
 	include(__DIR__."/block/header.php");
 }
 
-function blockPost(Post $post) {
+function blockPost(Post $post, string $type = "") {
+	if($type != ""){
+		$type .= "-";
+	}
     include(__DIR__."/block/post.php");
 }
 
