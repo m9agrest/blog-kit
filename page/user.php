@@ -10,11 +10,13 @@ $posts = getPostUser($user_id, $list);
     <body>
         <?php blockHeader(); ?>
         <main>
-            <div>
+            <div class="profile">
                 <img src="/blog-kit/main/photo/<?= $user->photo ?>" alt="User Photo">
-                <span><?= htmlspecialchars($user->name) ?></span>
-                <span>Подписчиков: <?= $user->sub ?></span>
-                <span>Постов: <?= $user->post ?></span>
+                <div class="profile-info">
+                    <span><?= htmlspecialchars($user->name) ?></span>
+                    <span>Подписчиков: <?= $user->sub ?></span>
+                    <span>Постов: <?= $user->post ?></span>
+                </div>
             </div>
             <?php if (count($posts) > 0): ?>
                 <?php foreach ($posts as $post): ?>
