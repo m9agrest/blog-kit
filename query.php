@@ -31,10 +31,9 @@ function getPost(int $post_id, int $child_list): Post | null{
     if($post_id <= 0 || $child_list <= 0){
         return null;
     }
-    $com = ($child_list - 1) * COUNT_LIST;
     $liker = "(liker = ".SESSION_ID." OR liker IS NULL) ORDER BY id DESC";
 
-    $data = DataBaseGetLine("SELECT * FROM v_post_2 WHERE id = {$post_id} AND (comment = 0 OR comment > {$com}) AND {$liker} LIMIT 1;");
+    $data = DataBaseGetLine("SELECT * FROM v_post_2 WHERE id = {$post_id} AND {$liker} LIMIT 1;");
     if(isset($data) && is_array($data)){
         return new Post($data, true, $child_list);
     }

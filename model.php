@@ -2,7 +2,7 @@
 class User{
     public int $id;
     public string $name;
-    public string $photo = "none.jpg";
+    public string $photo = "none.png";
     public int $sub = 0;
     public int $post = 0;
     public function __construct(array | null $data = null){

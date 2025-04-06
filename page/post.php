@@ -5,7 +5,7 @@ if(!isset($post)){
 }
 ?>
 <html>
-    <?php blockHead($post->text /* выделить пару слов или "запись ".$post->user->name */); ?>
+    <?php blockHead($post->text /*TODO выделить пару слов или "запись ".$post->user->name */); ?>
     <body>
         <?php blockHeader(); ?>
         <main>

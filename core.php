@@ -61,7 +61,7 @@ if(preg_match('/^post(\d+)$/', $page, $matches)){
     if($_SERVER["REQUEST_METHOD"] === "GET"){
 		$list = 1;
         $user_id = (int) $matches[1];
-        //открываем 
+        include(__DIR__."/page/user.php");
     }else{
         stop(403, json: true);
     }
